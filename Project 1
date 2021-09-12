@@ -1,0 +1,34 @@
+Conjunction:
+p|q|p/\q|
+t|t| t |
+t|f| f |
+f|t| f |
+f|f| f |
+
+Disjunction:
+p|q|p\/q|
+t|t| t |
+t|f| t |
+f|t| t |
+f|f| f |
+
+Exclusive Or:
+p|q|p xor q|
+t|t|   f   |
+t|f|   t   |
+f|t|   t   |
+f|f|   f   |
+
+Conditional:
+p|q|p->q|
+t|t| t |
+t|f| f |
+f|t| t |
+f|f| t |
+
+Biconditional:
+p|q|p->q|
+t|t| t |
+t|f| f |
+f|t| f |
+f|f| t |
