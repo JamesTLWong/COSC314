@@ -1,190 +1,193 @@
-import java.io.IOException;
-import java.util.*;
+Main Menu: 
 
-public class FinalProject_Binary_Martix_Powers {
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
 
-	private static Scanner keyIn = new Scanner(System.in);
-	//Default Binary Matrix (4x4)
-	private static int[][] matrix1= { {0, 1, 0, 0},
-									  {1, 0, 1, 1},
-									  {0, 1, 1, 1},
-									  {0, 0, 0, 1} };
-	private static int[][] matrixResult;
-	private static int[][] tempMatrix;
-	private static int size;
+1
+Please enter an integer for the power of the matrix >= 1:
+1
+0 1 0 0 
+1 0 1 1 
+0 1 1 1 
+0 0 0 1 
+Main Menu: 
 
-	public static void main(String[] args) throws IOException {
-		
-		mainMenu();
-	
-	}
-	
-	//Asks user to enter power, then prints out resulting matrix
-	private static void inputPower(int mSize) {
-		System.out.println("Please enter an integer for the power of the matrix >= 1:");
-		int power = keyIn.nextInt();
-		while(power<1) {
-			System.out.println("Please enter an integer greater than or equal to 1:");
-			power = keyIn.nextInt()-1;
-		}
-		matrixLoops(power, mSize);
-		printResMatrix(mSize);
-	}
-	
-	//loops through matrix rows and columns as many times as input power
-	private static void matrixLoops(int power, int mSize) {
-		
-		matrixResult = matrix1;
-		for(int i = 1; i < power; i++) {
-			tempMatrix = matrixResult;
-			matrixResult = new int[mSize][mSize];
-			for(int rows = 0; rows < mSize; rows++) {
-				for(int col = 0; col < mSize; col++) {
-					//calculate if value in row,col is 1 or 0
-					matrixResult[rows][col] = matrixCalc(rows,col,mSize);
-					
-				}
-			}
-		}
-	}
-	
-	//(A row,1 and B 1,col) or (A row,2 and B 2,col) or (A row,3 and B 3,col) etc...
-	//calculate if value is 1 or 0 based on statement above
-	//Assuming that each matrix product is calculated and then multiplied again to reach a power of (input)
-	private static int matrixCalc(int row, int col, int mSize) {
-		//for loop acts as or statement
-		for(int i = 0; i < mSize; i++) {
-					//print out equation for following code/execution
-				//System.out.print( "(" + tempMatrix[row][i] + "^" + matrix1[i][col]+") v ");
-			//if condition is the and statement, which only needs to be true once for the whole expression to be true so it immediately returns 1
-			if((tempMatrix[row][i] == 1) && (matrix1[i][col] == 1)) {
-					//System.out.print("= 1");
-					//System.out.println();
-				return 1;
-			}
-		}	
-			//System.out.print("= 0");
-			//System.out.println();
-		//otherwise returns 0	
-		return 0;
-	}
-	
-	//print out resulting matrix
-	private static void printResMatrix(int mSize) {
-		for(int rows = 0; rows < mSize; rows++) {
-			for(int col = 0; col < mSize; col++) {
-				System.out.print(matrixResult[rows][col] + " ");
-			}
-			System.out.println();
-		}
-	}
-	
-	//print out created matrix
-		private static void printUserMatrix(int mSize) {
-			for(int rows = 0; rows < mSize; rows++) {
-				for(int col = 0; col < mSize; col++) {
-					System.out.print(matrix1[rows][col] + " ");
-				}
-				System.out.println();
-			}
-		}
-	
-	//create a matrix from user inputs
-	private static void createAMatrix() throws IOException {
-		System.out.println("Enter what size you want your matrix to be (> 0):");
-		size = keyIn.nextInt();
-		while(size<=0) {
-			System.out.println("Please enter an integer above 0");
-			size = keyIn.nextInt();
-		}
-		matrix1 = new int[size][size];
-		for(int rows = 0; rows < size; rows++) {
-			for(int col = 0; col < size; col++) {
-				System.out.println("Please Enter a '1' or '0'");
-				int bi = keyIn.nextInt();
-				while((bi != 1) && (bi != 0)) {
-					System.out.println("Invalid! Please Enter a '1' or '0'");
-					bi = keyIn.nextInt();
-				}
-				matrix1[rows][col] = bi;
-			}
-		}
-		System.out.println("Your matrix is:");
-		printUserMatrix(size);
-		secondaryMenu();
-	}
-	
-	
-	//Main Menu: select next option from here
-	public static void mainMenu() throws IOException {
-		System.out.println("Main Menu: ");
-		System.out.println(menuOptions());
-		int selection = -1;
-		try {
-			selection = keyIn.nextInt();
-		}
-		catch(InputMismatchException e) {
-			System.out.println(e.getMessage());
-		}
-		switch(selection) {
-			case 1:
-				size = 4;
-				inputPower(size);
-				break;
-			case 2:
-				createAMatrix();
-				break;
-			case 9://Closes program
-				System.out.println("Exiting Program");
-				System.exit(0);
-				break;
-			default:
-				System.out.println("Option not found, Please enter the number corresponding to your option above.");
-				break;
-		}
-		mainMenu();
-	}
-	private static String menuOptions(){
-		return(
-			"\nWhat would you like to do:\n"
-			+ "1: Use Default Square Binary Matrix\n"
-			+ "2: Enter New Square Binary Matrix\n"
-			+ "9: Exit\n");
-	}
-	
-	//secondary menu - does not allow selection of default matrix
-	public static void secondaryMenu() throws IOException {
-		System.out.println("Menu: ");
-		System.out.println(menuSecondary());
-		int selection = -1;
-		try {
-			selection = keyIn.nextInt();
-		}
-		catch(InputMismatchException e) {
-			System.out.println(e.getMessage());
-		}
-		switch(selection) {
-			case 1:
-				inputPower(size);
-				break;
-			case 2:
-				createAMatrix();
-				break;
-			case 9://Closes program
-				System.out.println("Exiting Program");
-				System.exit(0);
-				break;
-			default:
-				System.out.println("Option not found, Please enter the number corresponding to your option above.");
-				break;
-		}
-		secondaryMenu();
-	}
-	private static String menuSecondary(){
-		return(
-			"\nWhat would you like to do:\n"
-			+ "1: Enter a Power Using Current Matrix\n"
-			+ "2: Enter New Square Binary Matrix\n"
-			+ "9: Exit\n");
-	}
-}
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+0
+Please enter an integer greater than or equal to 1:
+2
+0 1 0 0 
+1 0 1 1 
+0 1 1 1 
+0 0 0 1 
+Main Menu: 
+
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+3
+0 1 1 1 
+1 1 1 1 
+1 1 1 1 
+0 0 0 1 
+Main Menu: 
+
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+4
+1 1 1 1 
+1 1 1 1 
+1 1 1 1 
+0 0 0 1 
+Main Menu: 
+
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+5
+1 1 1 1 
+1 1 1 1 
+1 1 1 1 
+0 0 0 1 
+Main Menu: 
+
+What would you like to do:
+1: Use Default Square Binary Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+3
+Option not found, Please enter the number corresponding to your option above.
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+2
+Enter what size you want your matrix to be (> 0):
+2
+Please Enter a '1' or '0'
+0
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+0
+Your matrix is:
+0 1 
+1 0 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+2
+1 0 
+0 1 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+3
+0 1 
+1 0 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+2
+Enter what size you want your matrix to be (> 0):
+3
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+0
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+1
+Please Enter a '1' or '0'
+0
+Please Enter a '1' or '0'
+0
+Please Enter a '1' or '0'
+0
+Please Enter a '1' or '0'
+1
+Your matrix is:
+1 0 1 
+1 1 0 
+0 0 1 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+2
+1 0 1 
+1 1 1 
+0 0 1 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+1
+Please enter an integer for the power of the matrix >= 1:
+3
+1 0 1 
+1 1 1 
+0 0 1 
+Menu: 
+
+What would you like to do:
+1: Enter a Power Using Current Matrix
+2: Enter New Square Binary Matrix
+9: Exit
+
+9
+Exiting Program
